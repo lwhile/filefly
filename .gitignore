@@ -70,8 +70,3 @@ _testmain.go
 *.test
 *.prof
 
-将删除 .gitignore
-将删除 .idea/
-将删除 bin/
-将删除 pkg/
-将删除 src/
