@@ -42,10 +42,22 @@ func uploadfile(w http.ResponseWriter, r *http.Request) {
         f, err := os.OpenFile("./static/" + handle.Filename, os.O_WRONLY | os.O_CREATE, 0666)
         if err != nil {
             log.Fatal("Save UploadFile Error")
+            log.Fatal(err)
         }
         defer f.Close()
         io.Copy(f, file)
-        fmt.Fprint(w, "Upload Success.")
+        log.Println("url:", "0.0.0.0:65534/" + handle.Filename)
+        CreateQrImg("http:0.0.0.0:65534/" + handle.Filename)
+        fp, err := os.Open("./qrimg.png")
+        if err != nil {
+            log.Fatal("Open File Error")
+            log.Fatal(err)
+        }
+        buf := make([]byte, 32 << 20)
+        fp.Read(buf)
+        ret := string(buf)
+        fmt.Fprint(w, ret)
+        defer fp.Close()
     }
 }
 
@@ -68,7 +80,6 @@ func StartService() {
     http.HandleFunc("/", download)
     fmt.Println("Starting service and opening browser.")
     go OpenBrowser(url + "/index")
-    CreateQrImg(url)
     err1 := http.ListenAndServe(url, nil)
 
     if err1 != nil {
