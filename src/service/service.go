@@ -4,8 +4,8 @@ import (
     "fmt"
     //"net"
     "net/http"
-   // "math/rand"
-   // "strconv"
+    // "math/rand"
+    // "strconv"
     "os"
     "log"
     "io"
@@ -20,7 +20,7 @@ func init() {
     }
 }
 func index(w http.ResponseWriter, r *http.Request) {
-    fp, err := os.Open("./template/upload.html")
+    fp, err := os.Open("./template/index.html")
     if err != nil {
         log.Fatal("Open upload.html Fail!")
     }
@@ -53,36 +53,28 @@ func OpenBrowser(url string) {
     webbrowser.Open(url)
 }
 
+func StaticServer(w http.ResponseWriter, r *http.Request) {
+    http.StripPrefix("/file", http.FileServer(http.Dir("./static/"))).ServeHTTP(w, r)
+}
+
+func download(w http.ResponseWriter, r *http.Request) {
+    http.StripPrefix("/", http.FileServer(http.Dir("./static"))).ServeHTTP(w, r)
+}
 func StartService() {
     var url string = "0.0.0.0:" + PORT[0]
-    http.HandleFunc("/", index)
+    http.HandleFunc("/index", index)
     http.HandleFunc("/upload", uploadfile)
+    http.HandleFunc("/file", StaticServer)
+    http.HandleFunc("/", download)
     fmt.Println("Starting service and opening browser.")
-    go OpenBrowser(url)
+    go OpenBrowser(url + "/index")
     err1 := http.ListenAndServe(url, nil)
+
     if err1 != nil {
         fmt.Println("Start service error.")
         fmt.Println(err1)
     }
-    //for port := range PORT {
-    //    url = "0.0.0.0:" + strconv.Itoa(port)
-    //    if err == nil {
-    //        // 连接成功
-    //        fmt.Println("Starting service.")
-    //        go OpenBrowser(url)
-    //        err1 := http.ListenAndServe(url, nil)
-    //        if err1 != nil {
-    //            fmt.Println("Start service error.")
-    //            fmt.Println(err1)
-    //            break
-    //        } else {
-    //            break
-    //        }
-    //    } else {
-    //        // 连接失败
-    //        fmt.Println("error:", err)
-    //    }
-    //}
+
 }
 
 
