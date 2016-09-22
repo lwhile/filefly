@@ -1,8 +1,0 @@
-{
-"server":"155.94.238.74",
-"server_port":8388,
-"local_port":1080,
-"password":"jamxjjjelly",
-"timeout":600,
-"method":"aes-256-cfb"
-}
