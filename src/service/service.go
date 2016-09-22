@@ -9,7 +9,7 @@ import (
     "os"
     "log"
     "io"
-    "../github.com/toqueteos/webbrowser"
+    "github.com/toqueteos/webbrowser"
 )
 
 var PORT []string
@@ -68,13 +68,13 @@ func StartService() {
     http.HandleFunc("/", download)
     fmt.Println("Starting service and opening browser.")
     go OpenBrowser(url + "/index")
+    CreateQrImg(url)
     err1 := http.ListenAndServe(url, nil)
 
     if err1 != nil {
         fmt.Println("Start service error.")
         fmt.Println(err1)
     }
-
 }
 
 
