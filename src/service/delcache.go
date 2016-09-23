@@ -25,6 +25,8 @@ func DeleteCache(dirName string) {
     //checkNil(err)
     err := os.RemoveAll(dirName)
     checkNil(err)
+
+    // Why is 0700, come here:http://stackoverflow.com/questions/14249467/os-mkdir-and-os-mkdirall-permission-value
     err = os.MkdirAll(dirName, 0700)
     checkNil(err)
 }
