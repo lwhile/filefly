@@ -2,20 +2,27 @@ package service
 
 import (
     "os"
-    "path/filepath"
+    //"path/filepath"
     "log"
+    "fmt"
 )
 
 func deletefile(path string, f os.FileInfo, err error) error {
+    fmt.Println(path)
+    if path == "../upload" {
+        return nil
+    }
     err1 := os.Remove(path)
-    if err != nil {
-        log.Fatal("清除缓存失败", err1)
+    if err1 != nil {
+        log.Fatal(err1)
         return err1
     }
-    return nil
+    return err1
 }
 
 func DeleteCache(dirName string) {
-    err := filepath.Walk(dirName, deletefile)
-    checkNil(err)
+    //err := filepath.Walk(dirName, deletefile)
+    //checkNil(err)
+    os.RemoveAll(dirName)
+    os.MkdirAll("../upload/", os.ModeTemporary)
 }

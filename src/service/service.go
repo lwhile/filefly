@@ -11,6 +11,7 @@ import (
     "time"
     "net"
     "strings"
+    "html/template"
 )
 
 var mux map[string]func(http.ResponseWriter, *http.Request)
@@ -66,7 +67,6 @@ func (*MyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     }
 }
 
-
 func index(w http.ResponseWriter, r *http.Request) {
     fp, err := os.Open("./template/index.html")
     if err != nil {
@@ -94,27 +94,36 @@ func upload(w http.ResponseWriter, r *http.Request) {
 
         // 返回二维码图片
         CreateQrImg("http://192.168.1.185:65534/file")
-        fpCode, err := os.Open("./qrimg.png")
-        if err != nil {
-            log.Fatal("Open File Error")
-            log.Fatal(err)
-        }
-        buf := make([]byte, 32 << 20)
-        fpCode.Read(buf)
-        ret := string(buf)
-        fmt.Fprint(w, ret)
+
+        http.Redirect(w, r, "http://0.0.0.0:65534/download", 301)
 
         // fmt.Println("Success")
-        defer fpCode.Close()
+        // defer fpCode.Close()
         defer file.Close()
         defer fp.Close()
     }
+}
+
+func download(w http.ResponseWriter, r *http.Request) {
+    //t := template.New("DownLoadTemplate")
+    t, err := template.ParseFiles("./template/download.html")
+    //t = template.Must(t, nil)
+    checkNil(err)
+    fmt.Println(*t)
+    QrImgPath := "images/qrimg.png"
+    t.Execute(w, QrImgPath)
 }
 
 func staticServer(w http.ResponseWriter, r *http.Request) {
     http.StripPrefix("/file", http.FileServer(http.Dir("./upload"))).ServeHTTP(w, r)
 }
 
+func exit(w http.ResponseWriter, r *http.Request) {
+    go DeleteCache("../upload")
+    fmt.Fprintln(w,"<h1>Success</h1>")
+    defer os.Exit(0)
+
+}
 func StartService() {
     server := http.Server{
         Addr:        "0.0.0.0:65534",
@@ -125,6 +134,8 @@ func StartService() {
     mux["/"] = index
     mux["/upload"] = upload
     mux["/file"] = staticServer
+    mux["/download"] = download
+    mux["/exit"] = exit
     go webbrowser.Open(server.Addr)
     server.ListenAndServe()
 }

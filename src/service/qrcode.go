@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	ImageName = "qrimg.png"
+	ImageName = "./template/images/qrimg.png"
 )
 
 func CreateQrImg(url string) {

@@ -3,18 +3,18 @@ package test
 import (
 	"../service"
 	"testing"
-    "fmt"
+    //"fmt"
 )
 
-func TestQrImg(t *testing.T) {
-	url := "0.0.0.0:80"
-	service.CreateQrImg(url)
-}
-
-func TestGetInterIp(t *testing.T) {
-    fmt.Println(service.GetInterIp())
-}
+//func TestQrImg(t *testing.T) {
+//	url := "0.0.0.0:80"
+//	service.CreateQrImg(url)
+//}
+//
+//func TestGetInterIp(t *testing.T) {
+//    fmt.Println(service.GetInterIp())
+//}
 
 func TestDeleteFile(t *testing.T) {
-    service.DeleteCache("../upload")
+    service.DeleteCache("../upload/")
 }
