@@ -20,5 +20,7 @@ filefly是一个用Go编写,能够让局域网内的不同设备之间互相传�
 - [ ] 多文件上传支持
 - [ ] 支持局域网内不同主机定向互传
 
- ![image](https://github.com/lwhhhh/filefly/raw/master/src/template/images/togithub1.png)
- ![image](https://github.com/lwhhhh/filefly/raw/master/src/template/images/togithub2.png)
+
+![image](https://github.com/lwhhhh/filefly/raw/master/src/template/images/togithub1.png)
+
+![image](https://github.com/lwhhhh/filefly/raw/master/src/template/images/togithub2.png)
