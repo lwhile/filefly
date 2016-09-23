@@ -91,9 +91,10 @@ func upload(w http.ResponseWriter, r *http.Request) {
 
         _, err1 := io.Copy(fp, file)
         checkNil(err1)
+        //fmt.Println("filename is:", handler.Filename)
 
         // 返回二维码图片
-        CreateQrImg("http://192.168.1.185:65534/file")
+        CreateQrImg("http://192.168.1.185:65534/" + handler.Filename)
 
         http.Redirect(w, r, "http://0.0.0.0:65534/download", 301)
 
@@ -109,7 +110,7 @@ func download(w http.ResponseWriter, r *http.Request) {
     t, err := template.ParseFiles("./template/download.html")
     //t = template.Must(t, nil)
     checkNil(err)
-    fmt.Println(*t)
+    //fmt.Println(*t)
     QrImgPath := "images/qrimg.png"
     t.Execute(w, QrImgPath)
 }
@@ -119,10 +120,9 @@ func staticServer(w http.ResponseWriter, r *http.Request) {
 }
 
 func exit(w http.ResponseWriter, r *http.Request) {
-    go DeleteCache("../upload")
-    fmt.Fprintln(w,"<h1>Success</h1>")
+    DeleteCache("./upload")
+    //fmt.Fprintln(w, "<h1>Success</h1>")
     defer os.Exit(0)
-
 }
 func StartService() {
     server := http.Server{

@@ -9,7 +9,7 @@ import (
 
 func deletefile(path string, f os.FileInfo, err error) error {
     fmt.Println(path)
-    if path == "../upload" {
+    if path == "./upload" {
         return nil
     }
     err1 := os.Remove(path)
@@ -23,6 +23,8 @@ func deletefile(path string, f os.FileInfo, err error) error {
 func DeleteCache(dirName string) {
     //err := filepath.Walk(dirName, deletefile)
     //checkNil(err)
-    os.RemoveAll(dirName)
-    os.MkdirAll("../upload/", os.ModeTemporary)
+    err := os.RemoveAll(dirName)
+    checkNil(err)
+    err = os.MkdirAll(dirName, 0700)
+    checkNil(err)
 }
