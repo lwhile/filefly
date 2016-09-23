@@ -1,10 +1,9 @@
 package main
 
 import (
-    "./service"
-
+	"./service"
 )
 
 func main() {
-    service.StartService()
+	service.StartService()
 }
