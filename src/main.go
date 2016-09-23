@@ -1,9 +1,10 @@
 package main
 
 import (
-	"./service"
+    "./service"
 )
 
 func main() {
-	service.StartService()
+    service.StartService()
+    defer service.DeleteCache("../upload")
 }

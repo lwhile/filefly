@@ -16,5 +16,5 @@ const (
 func CreateQrImg(url string) {
 	//url = "http://" + url
 	err := qrcode.WriteFile(url, qrcode.Medium, 256, ImageName)
-	checkNil(err, "qr")
+	checkNil(err)
 }
